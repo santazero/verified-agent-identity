@@ -10,7 +10,8 @@ on:
       agent_description:
         description: 'cyclopabalabal'
         required: true
-        default: 'cyclopabalabal AI Agent'
+        default: 'cyclopabalabal AI
+Agent'
 
 jobs:
   verify:
