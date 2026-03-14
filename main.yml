@@ -2,36 +2,37 @@ name: Verify Human Identity
 
 on:
   workflow_dispatch:
+    inputs:
+      agent_name:
+        description: "Agent Name"
+        required: true
+        default: "finder"
+      agent_description:
+        description: "Agent Description"
+        required: true
+        default: "finder AI Agent"
 
 jobs:
   verify:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "18"
 
-      - name: Install ClawHub skill
-  run: |
-    npm install -g clawhub
-    clawhub install verified-agent-identity
-
-      - name: Install Verified Agent Identity
-        run: clawhub install verified-agent-identity
-
-      - name: Install dependencies
+      - name: Install ClawHub
         run: |
-          cd scripts
-          npm install
+          npm install -g clawhub
 
-      - name: Create Ethereum Identity
-        run: node scripts/createNewEthereumIdentity.js
-
-      - name: Link Human to Agent
+      - name: Install Santazero Verified Agent Skill
         run: |
-          node scripts/manualLinkHumanToAgent.js --challenge '{"name":"santazero","description":"santazero AI Agent"}'
+          clawhub install verified-agent-identity
+
+      - name: Generate Identity & Connect Link
+        run: |
+          clawhub verify
